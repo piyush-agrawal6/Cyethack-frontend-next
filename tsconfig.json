@@ -3,9 +3,15 @@
     "baseUrl": ".", // 👈 ADD THIS
     "paths": {
       // 👈 ADD THIS
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     },
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -16,19 +22,25 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.js",
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "app/page.jsx"
-, "app/layout.jsx", "tailwind.config.js"  ],
-  "exclude": ["node_modules"]
+    "app/page.jsx",
+    "app/layout.jsx",
+    "tailwind.config.js",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -5,7 +5,7 @@ import Footer from "@/components/layout/Footer";
 import { Providers } from "@/components/Providers";
 import { Toaster } from "sonner";
 import Chatbot from "@/components/Chatbot";
-import TrafficTracker from "@/components/TrafficTracker";
+import TrafficTrackerWrapper from "@/components/TrafficTrackerWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <body className={inter.className}>
         <Providers>
-          <TrafficTracker />
+          <TrafficTrackerWrapper />
           <Navbar />
           <main>{children}</main>
           <Footer />

@@ -98,49 +98,11 @@ export default function TrafficTracker() {
                 logData();
             }
         };
-
-        // Also log immediately on mount to capture the "View" event, 
-        // but we'll update it with time/scroll on unload.
-        // Actually, for simplicity and to avoid double counting "Views", 
-        // we can just log the "View" at the start and "Metrics" at the end?
-        // The user wants "Granular control". 
-        // Let's stick to the user's request: "if i refresh... it counts 2 time... it should not count... if i visit again".
-        // This implies they want UNIQUE visits or just accurate view counts.
-        // The "Beacon" strategy usually sends data at the END of the session/page view.
-        // However, if the user crashes or closes abruptly, we might miss the "View".
-        // Hybrid approach: Send "Page View" immediately. Send "Metrics" (Time, Scroll) on unload.
-        // BUT, to keep it simple and robust as per the "Beacon" suggestion in the prompt:
-        // "The Collector... gathers data... The Transport: Use navigator.sendBeacon()... even if user closes tab."
-        // This strongly suggests sending data when the user LEAVES.
-
-        // However, if we only send on leave, we don't see "Active" users in real-time.
-        // That might be confusing for the user testing it ("I visited the page but don't see it").
-        // I will implement the "Send on Unload/VisibilityHidden" strategy.
-        // This effectively debounces rapid refreshes too, as short visits will just be short visits.
-        // The prompt asks for "Time on Page" and "Scroll Depth". These are only known at the end.
-        // So I MUST send on unload to get these metrics.
-        // To satisfy "I want to see the count", I'll send it on unload. 
-        // The user will have to navigate away or close tab to see the log.
-        // Wait, if I refresh, the previous page unloads, so it SHOULD log.
-
-        window.addEventListener('visibilitychange', handleVisibilityChange);
-        window.addEventListener('pagehide', logData); // Fallback
-
-        // Initial "Ping" to register the view? 
-        // If we wait for unload, the "Recent Activity" log won't show the user UNTIL they leave.
-        // No, that doubles the write load.
-        // I will send the MAIN log immediately (to show up in logs), and maybe a second "Update" log on unload?
-        // I will send the MAIN log immediately (to show up in logs), and maybe a second "Update" log on unload?
-        // The prompt asks for "Time on Page" and "Scroll Depth". These are only known at the end.
-        // So I MUST send on unload to get these metrics.
-        // To satisfy "I want to see the count", I'll send it on unload. 
-        // The user will have to navigate away or close tab to see the log.
-        // Wait, if I refresh, the previous page unloads, so it SHOULD log.
+      
 
         return () => {
             window.removeEventListener('visibilitychange', handleVisibilityChange);
             window.removeEventListener('pagehide', logData);
-            // We also call logData here to catch React component unmounts (client-side navigation)
             logData();
         };
     }, [pathname, searchParams]);
